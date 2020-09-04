@@ -11,9 +11,6 @@ import (
 
 //StartHttpServer starting a http server for restful api
 func StartHttpServer(handler http.Handler) {
-	config.Load()
-	//set logger config
-	logx.SetConfig(config.Logging())
 	var log = logx.New().Category("boot").Component("starter")
 
 	log.Infof("Server starting... IP: %s, port: %d", config.Server().Data.Addr, config.Server().Data.Port)
@@ -27,6 +24,12 @@ func LoadConfig() {
 //StartRPCServer starting a gRPC server
 func StartGrpcServer() {
 	//todo x
+}
+
+//Init 在所有模块注册就绪后初始化
+func Init() {
+	config.Load()
+	logx.SetConfig(config.Logging())
 }
 
 func init() {
