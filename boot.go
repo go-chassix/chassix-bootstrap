@@ -1,11 +1,11 @@
 package chassix
 
 import (
-	"c5x.io/chassix/internal"
 	"fmt"
 	"net/http"
 	"strconv"
 
+	"c5x.io/chassix/internal"
 	"c5x.io/logx"
 )
 
