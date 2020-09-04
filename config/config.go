@@ -199,9 +199,9 @@ func (c *Configs) Logging() *LoggingConfig {
 type LoggingConfig struct {
 	Data struct {
 		Level        string
-		ReportCaller bool `yaml:"report-caller"`
-		NoColors     bool `yaml:"no-colors"`
-		CallerFirst  bool `yaml:"caller-first"`
+		ReportCaller bool `yaml:"report_caller"`
+		NoColors     bool `yaml:"no_colors"`
+		CallerFirst  bool `yaml:"caller_first"`
 	} `yaml:"logging"`
 }
 
