@@ -2,5 +2,5 @@
 chassix framework bootstrap
 
 ```
-c5x.io/bootstrap
+c5x.io/chassix
 ```
