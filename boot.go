@@ -1,11 +1,11 @@
 package chassix
 
 import (
+	"c5x.io/chassix/internal"
 	"fmt"
 	"net/http"
 	"strconv"
 
-	"c5x.io/chassix/config"
 	"c5x.io/logx"
 )
 
@@ -13,12 +13,8 @@ import (
 func StartHttpServer(handler http.Handler) {
 	var log = logx.New().Category("boot").Component("starter")
 
-	log.Infof("Server starting... IP: %s, port: %d", config.Server().Data.Addr, config.Server().Data.Port)
-	log.Fatal(http.ListenAndServe(":"+strconv.Itoa(config.Server().Data.Port), handler))
-}
-
-func LoadConfig() {
-	config.Load()
+	log.Infof("Server starting... IP: %s, port: %d", internal.Server().Data.Addr, internal.Server().Data.Port)
+	log.Fatal(http.ListenAndServe(":"+strconv.Itoa(internal.Server().Data.Port), handler))
 }
 
 //StartRPCServer starting a gRPC server
@@ -28,13 +24,13 @@ func StartGrpcServer() {
 
 //Init 在所有模块注册就绪后初始化
 func Init() {
-	config.Load()
-	logx.SetConfig(config.Logging())
+	internal.Load()
+	logx.SetConfig(internal.Logging())
 }
 
 func init() {
 	fmt.Print(welcome3)
-	config.WatchBootstrapConfig()
+	internal.WatchBootstrapConfig()
 }
 
 type Module struct {
@@ -43,6 +39,6 @@ type Module struct {
 }
 
 func Register(module *Module) error {
-	config.Watch(module.Name, module.ConfigPtr)
+	internal.Watch(module.Name, module.ConfigPtr)
 	return nil
 }

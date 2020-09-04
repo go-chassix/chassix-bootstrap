@@ -1,10 +1,9 @@
-package config
+package internal
 
 import (
 	"strings"
 	"sync"
 
-	"c5x.io/chassix/config/internal"
 	"gopkg.in/apollo.v0"
 )
 
@@ -103,7 +102,7 @@ type ApolloConfig struct {
 func UsingYaml() {
 	configs.RLock()
 	defer configs.RUnlock()
-	internal.LoadConfigsFromEnvFile(configs.chassixConfigs)
+	LoadConfigsFromEnvFile(configs.chassixConfigs)
 }
 
 func UsingApollo() {
@@ -111,7 +110,7 @@ func UsingApollo() {
 	defer configs.RUnlock()
 }
 func LoadSimpleConfig() {
-	internal.LoadFromEnvFile(simpleConfig)
+	LoadFromEnvFile(simpleConfig)
 }
 
 // IsApolloEnabled is apollo enable
@@ -121,15 +120,15 @@ func IsApolloEnabled() bool {
 func Load() {
 	LoadSimpleConfig()
 	if simpleConfig.AppConfig.Data.Debug {
-		internal.IsDebug = true
+		IsDebug = true
 	}
 	if IsApolloEnabled() {
-		internal.GetLogger().Info("using apollo config")
+		GetLogger().Info("using apollo config")
 		UsingApollo()
 		return
 	}
 	UsingYaml()
-	internal.GetLogger().Info("using yaml file config")
+	GetLogger().Info("using yaml file config")
 }
 
 func init() {
