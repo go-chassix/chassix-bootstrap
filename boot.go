@@ -9,6 +9,17 @@ import (
 	"c5x.io/logx"
 )
 
+const (
+	ModuleApp            = internal.KeyAppConfig
+	ModuleApollo         = internal.KeyApolloConfig
+	ModuleServer         = internal.KeyServerConfig
+	ModuleLogging        = internal.KeyLoggingConfig
+	ModuleDatasource     = internal.KeyDatasourceConfig
+	ModuleSqlxDatasource = internal.KeySqlxDatasourceConfig
+	ModuleRedis          = internal.KeyRedisConfig
+	ModuleCache          = internal.KeyCacheConfig
+)
+
 //StartHttpServer starting a http server for restful api
 func StartHttpServer(handler http.Handler) {
 	var log = logx.New().Category("boot").Component("starter")
