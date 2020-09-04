@@ -1,6 +1,7 @@
 package config
 
 import (
+	"strings"
 	"sync"
 
 	"c5x.io/bootstrap/config/internal"
@@ -17,6 +18,7 @@ const (
 	KeyAppConfig        = "chassix.app"
 	KeyApolloConfig     = "chassix.apollo"
 	KeyServerConfig     = "chassix.server"
+	KeyLoggingConfig    = "chassix.logging"
 	KeyDatasourceConfig = "chassix.datasource"
 	KeyRedisConfig      = "chassix.redis"
 )
@@ -28,10 +30,9 @@ type Configs struct {
 
 //Config all config
 type Config struct {
-	App AppConfig `yaml:"app"`
+	AppConfig `yaml:",inline"`
 	//Server ServerConfig `yaml:"server"`
-	Apollo ApolloConfig `yaml:"apollo"`
-	//lock   sync.RWMutex `yaml:"-"`
+	ApolloConfig `yaml:",inline"`
 }
 
 func (c *Configs) RLock() {
@@ -50,10 +51,12 @@ func (c *Configs) UnLock() {
 
 //AppConfig application config
 type AppConfig struct {
-	Name    string
-	Version string
-	Env     string
-	Config  string
+	Data struct {
+		Name    string
+		Version string
+		Env     string
+		Debug   bool
+	} `yaml:"app"`
 }
 
 //ServerConfig server config
@@ -80,11 +83,18 @@ func Server() *ServerConfig {
 	defer configs.UnLock()
 	return configs.Server()
 }
+func Logging() *LoggingConfig {
+	configs.Lock()
+	defer configs.UnLock()
+	return configs.Logging()
+}
 
 // ApolloConfig apollo config
 type ApolloConfig struct {
-	Enabled  bool        `yaml:"enabled"`
-	Settings apollo.Conf `yaml:"settings"`
+	Data struct {
+		Enabled  bool        `yaml:"enabled"`
+		Settings apollo.Conf `yaml:"settings"`
+	} `yaml:"apollo"`
 }
 
 //UsingYaml
@@ -104,15 +114,20 @@ func LoadSimpleConfig() {
 
 // IsApolloEnabled is apollo enable
 func IsApolloEnabled() bool {
-	return simpleConfig.Apollo.Enabled
+	return simpleConfig.ApolloConfig.Data.Enabled
 }
 func Load() {
 	LoadSimpleConfig()
+	if simpleConfig.AppConfig.Data.Debug {
+		internal.IsDebug = true
+	}
 	if IsApolloEnabled() {
+		internal.GetLogger().Info("using apollo config")
 		UsingApollo()
 		return
 	}
 	UsingYaml()
+	internal.GetLogger().Info("using yaml file config")
 }
 
 func init() {
@@ -121,11 +136,13 @@ func init() {
 	serverConfig = new(ServerConfig)
 	apolloConfig = new(ApolloConfig)
 	simpleConfig = new(Config)
+	loggingConfig = new(LoggingConfig)
 }
 
 var appConfig *AppConfig
 var serverConfig *ServerConfig
 var apolloConfig *ApolloConfig
+var loggingConfig *LoggingConfig
 
 var configsInitOnce sync.Once
 
@@ -141,18 +158,77 @@ func WatchBootstrapConfig() {
 	configs.Watch(KeyAppConfig, appConfig)
 	configs.Watch(KeyServerConfig, serverConfig)
 	configs.Watch(KeyApolloConfig, apolloConfig)
+	configs.Watch(KeyLoggingConfig, loggingConfig)
 
 }
+
+func Watch(name string, cfg interface{}) {
+	configs.Watch(name, cfg)
+}
+
 func (c *Configs) Watch(name string, cfg interface{}) {
 	c.chassixConfigs[name] = cfg
 }
 
+//App return app config
 func (c *Configs) App() *AppConfig {
 	return c.chassixConfigs[KeyAppConfig].(*AppConfig)
 }
+
+//Server get server config: port addr
 func (c *Configs) Server() *ServerConfig {
 	return c.chassixConfigs[KeyServerConfig].(*ServerConfig)
 }
+
+//Apollo apollo server settings: ip, namespaces...
 func (c *Configs) Apollo() *ApolloConfig {
 	return c.chassixConfigs[KeyApolloConfig].(*ApolloConfig)
+}
+
+//Get get config by map key
+func (c *Configs) Get(key string) (interface{}, bool) {
+	val, ok := c.chassixConfigs[key]
+	return val, ok
+}
+
+//Logging logging config
+func (c *Configs) Logging() *LoggingConfig {
+	return c.chassixConfigs[KeyLoggingConfig].(*LoggingConfig)
+}
+
+type LoggingConfig struct {
+	Data struct {
+		Level        string
+		ReportCaller bool `yaml:"report-caller"`
+		NoColors     bool `yaml:"no-colors"`
+		CallerFirst  bool `yaml:"caller-first"`
+	} `yaml:"logging"`
+}
+
+func (logCfg *LoggingConfig) Level() int {
+	levelStr := strings.ToLower(logCfg.Data.Level)
+	switch levelStr {
+	case "debug":
+		return 5
+	case "info":
+		return 4
+	case "warn":
+		return 3
+	case "error":
+		return 2
+	default:
+		return 4
+	}
+}
+
+func (logCfg *LoggingConfig) ReportCaller() bool {
+	return logCfg.Data.ReportCaller
+}
+
+func (logCfg *LoggingConfig) NoColors() bool {
+	return logCfg.Data.NoColors
+}
+
+func (logCfg *LoggingConfig) CallerFirst() bool {
+	return logCfg.Data.CallerFirst
 }

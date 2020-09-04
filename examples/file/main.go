@@ -1,7 +1,7 @@
 package main
 
-import "c5x.io/bootstrap"
+import "c5x.io/chassix"
 
 func main() {
-	bootstrap.StartHttpServer(nil)
+	chassix.StartHttpServer(nil)
 }

@@ -20,7 +20,7 @@ func LoadFromApollo(cfg interface{}, settings *apollo.Conf, configs []interface{
 	//if IsApolloEnable() {
 
 	if err := apollo.StartWithConf(settings); err != nil {
-		fmt.Printf("load apollo config error: %s\n", err)
+		log.Errorf("load apollo config error: %s\n", err)
 		os.Exit(1)
 		return
 	}
@@ -32,14 +32,12 @@ func LoadFromApollo(cfg interface{}, settings *apollo.Conf, configs []interface{
 			event := apollo.WatchUpdate()
 			changeEvent := <-event
 			bytes, _ := json.Marshal(changeEvent)
-			fmt.Println("event:", string(bytes))
-
+			log.Info("event:", string(bytes))
 			for _, cfg := range configs {
 				readConfig(cfg, settings.Namespaces)
 			}
 		}
 	}()
-	//}
 }
 
 //LoadCustomFromFile Load custom config from apollo, save to custom config
