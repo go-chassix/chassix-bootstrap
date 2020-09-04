@@ -4,7 +4,7 @@ import (
 	"strings"
 	"sync"
 
-	"c5x.io/bootstrap/config/internal"
+	"c5x.io/chassix/config/internal"
 	"gopkg.in/apollo.v0"
 )
 
