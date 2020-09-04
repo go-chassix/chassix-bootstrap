@@ -10,14 +10,14 @@ import (
 )
 
 const (
-	ModuleApp            = internal.KeyAppConfig
-	ModuleApollo         = internal.KeyApolloConfig
-	ModuleServer         = internal.KeyServerConfig
-	ModuleLogging        = internal.KeyLoggingConfig
-	ModuleDatasource     = internal.KeyDatasourceConfig
-	ModuleSqlxDatasource = internal.KeySqlxDatasourceConfig
-	ModuleRedis          = internal.KeyRedisConfig
-	ModuleCache          = internal.KeyCacheConfig
+	ModuleApp      = internal.KeyAppConfig
+	ModuleApollo   = internal.KeyApolloConfig
+	ModuleServer   = internal.KeyServerConfig
+	ModuleLogging  = internal.KeyLoggingConfig
+	ModuleDataGorm = "chassix.data.gorm"
+	ModuleDataSqlx = "chassix.data.sqlx"
+	ModuleRedis    = "chassix.data.redis"
+	ModuleCache    = "chassix.cache"
 )
 
 //StartHttpServer starting a http server for restful api

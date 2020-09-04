@@ -14,14 +14,10 @@ var (
 )
 
 const (
-	KeyAppConfig            = "chassix.app"
-	KeyApolloConfig         = "chassix.apollo"
-	KeyServerConfig         = "chassix.server"
-	KeyLoggingConfig        = "chassix.logging"
-	KeyDatasourceConfig     = "chassix.datasource"
-	KeySqlxDatasourceConfig = "chassix.datasource.sqlx"
-	KeyRedisConfig          = "chassix.redis"
-	KeyCacheConfig          = "chassix.cache"
+	KeyAppConfig     = "chassix.app"
+	KeyApolloConfig  = "chassix.apollo"
+	KeyServerConfig  = "chassix.server"
+	KeyLoggingConfig = "chassix.logging"
 )
 
 type Configs struct {
