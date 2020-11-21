@@ -19,6 +19,7 @@ const (
 	ModuleRedis    = "chassix.data.redis"
 	ModuleCache    = "chassix.cache"
 	ModuleGrpc     = "chassix.grpc"
+	ModuleRestful  = "chassix.restful"
 )
 
 //StartHttpServer starting a http server for restful api
