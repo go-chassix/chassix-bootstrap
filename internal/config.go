@@ -195,12 +195,13 @@ func (c *Configs) Logging() *LoggingConfig {
 
 type LoggingConfig struct {
 	Data struct {
-		Level        string
-		ReportCaller bool     `yaml:"report_caller"`
-		NoColors     bool     `yaml:"no_colors"`
-		CallerFirst  bool     `yaml:"caller_first"`
-		HideKeys     bool     `yaml:"hide_keys"`
-		FieldsOrder  []string `yaml:"fields_order"`
+		Level            string
+		ReportCaller     bool     `yaml:"report_caller"`
+		NoColors         bool     `yaml:"no_colors"`
+		CallerFirst      bool     `yaml:"caller_first"`
+		HideKeys         bool     `yaml:"hide_keys"`
+		FieldsOrder      []string `yaml:"fields_order"`
+		NoUppercaseLevel bool     `yaml:"no_uppercase_level"`
 	} `yaml:"logging"`
 }
 
@@ -237,4 +238,7 @@ func (logCfg *LoggingConfig) HideKeys() bool {
 }
 func (logCfg *LoggingConfig) FieldsOrder() []string {
 	return logCfg.Data.FieldsOrder
+}
+func (logCfg *LoggingConfig) NoUppercaseLevel() bool {
+	return logCfg.Data.NoUppercaseLevel
 }
