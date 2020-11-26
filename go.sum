@@ -6,6 +6,8 @@ c5x.io/logx v0.0.0-20201125080610-ec55867cda9e h1:Nx4Br/nHj3x6YKZzKncn7sqYL8Js7G
 c5x.io/logx v0.0.0-20201125080610-ec55867cda9e/go.mod h1:30RIzAz9jexzl5Orh0oWOoJekDc8goHevk20PMxF9Zo=
 c5x.io/logx v0.0.0-20201125081856-10bf755aab8b h1:vg61jb8gNqAQltPtuztJX4qzG5EJSQnle1gFA/P0qwI=
 c5x.io/logx v0.0.0-20201125081856-10bf755aab8b/go.mod h1:30RIzAz9jexzl5Orh0oWOoJekDc8goHevk20PMxF9Zo=
+c5x.io/logx v0.1.0 h1:KWbzFMTKoR7S4M4nwhEsnB9bfPEyDaBSu1o9FgBqVOA=
+c5x.io/logx v0.1.0/go.mod h1:30RIzAz9jexzl5Orh0oWOoJekDc8goHevk20PMxF9Zo=
 github.com/antonfisher/nested-logrus-formatter v1.2.0 h1:bbo1NIVWAspzyQZbzudw4sgntja0Ldx+GM5PoBJ7xgM=
 github.com/antonfisher/nested-logrus-formatter v1.2.0/go.mod h1:6WTfyWFkBc9+zyBaKIqRrg/KwMqBbodBjgbHjDz7zjA=
 github.com/antonfisher/nested-logrus-formatter v1.3.0 h1:8zixYquU1Odk+vzAaAQPAdRh1ZjmUXNQ1T+dUBvlhVo=
